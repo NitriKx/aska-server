@@ -2,7 +2,7 @@ FROM steamcmd/steamcmd:alpine as base
 LABEL maintainer="git@luxusburg.lu"
 
 ARG DEBIAN_FRONTEND="noninteractive"
-VOLUME ["/home/aska/server_files", "/home/aska/persistent_data"]
+VOLUME ["/home/aska/server_files"]
 
 # Set environment variables
 ENV USER aska

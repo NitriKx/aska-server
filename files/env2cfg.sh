@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_FILE="$server_files/server_properties.txt"
+APP_FILE="$server_files/server properties.txt"
 
 variables=(    
     "SERVER_NAME" "server name"

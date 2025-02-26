@@ -58,7 +58,6 @@ docker run -d \
     -p 27016:27016/udp \    
     -p 27015:27015/udp \
     -v ./server:/home/aska/server_files \
-    -v ./data:/home/aska/persistent_data \
     -e TZ=Europe/Paris \
     -e PASSWORD=change_me
     -e SERVER_NAME='Aska docker by Luxusburg'
@@ -91,7 +90,6 @@ services:
       - KEEP_WORLD_ALIVE=false
     volumes:
       - './server:/home/aska/server_files:rw'
-      - './data:/home/aska/persistent_data:rw'
     ports:
       - '27016:27016/udp'
       - '27015:27015/udp'
