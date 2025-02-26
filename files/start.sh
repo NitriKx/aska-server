@@ -66,4 +66,4 @@ echo "Starting Aska Dedicated Server"
 echo " "
 echo "Launching wine Aska"
 echo " "
-xvfb-run wine $server_files/AskaServer.bat 2>&1
+xvfb-run -e /dev/stdout wine $server_files/AskaServer.bat 2>&1
