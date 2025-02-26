@@ -90,7 +90,7 @@ services:
       - SERVER_NAME='Aska docker by Luxusburg'
       - KEEP_WORLD_ALIVE=false
     volumes:
-      - './server:/home/aska/server_files_:rw'
+      - './server:/home/aska/server_files:rw'
       - './data:/home/aska/persistent_data:rw'
     ports:
       - '27016:27016/udp'
