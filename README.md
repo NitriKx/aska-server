@@ -3,7 +3,7 @@
 
 [![Image Size](https://img.shields.io/docker/image-size/luxusburg/aska-server/latest)](https://hub.docker.com/r/luxusburg/aska-server/tags)
 
-[![Docker Hub](https://img.shields.io/badge/Docker_Hub-foundry-blue?logo=docker)](https://hub.docker.com/r/luxusburg/aska-server)
+[![Docker Hub](https://img.shields.io/badge/Docker_Hub-aska-blue?logo=docker)](https://hub.docker.com/r/luxusburg/aska-server)
 
 ## Table of contents
 - [Docker Run command](#docker-run)
