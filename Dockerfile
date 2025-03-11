@@ -5,11 +5,11 @@ ARG DEBIAN_FRONTEND="noninteractive"
 VOLUME ["/home/aska/server_files"]
 
 # Set environment variables
-ENV USER aska
-ENV HOME /home/$USER
-ENV TZ 'Europe/Berlin'
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
+ENV USER=aska
+ENV HOME=/home/$USER
+ENV TZ='Europe/Berlin'
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
 
 # Install wine xvfb and cron
 RUN apk add --no-cache wine xvfb xvfb-run doas tzdata musl musl-utils musl-locales libgcc
