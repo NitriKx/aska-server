@@ -1,6 +1,7 @@
 #!/bin/bash
 
-APP_FILE="$server_files/server properties.txt"
+ORIGINAL_FILE="/home/ubuntu/scripts/server properties.txt"
+DESTINATION_FILE="/home/ubuntu/server_files/server properties.txt"
 
 variables=(    
     "SERVER_NAME" "server name"
@@ -10,8 +11,12 @@ variables=(
     "AUTHENTICATION_TOKEN" "authentication token"
     "REGION" "region"
     "KEEP_WORLD_ALIVE" "keep server world alive"
-    "AUTOSAVE_STYLE" "autosave style"    
+    "AUTOSAVE_STYLE" "autosave style"
+    "SAVE_ID" "save id"
+    "SEED" "seed"
 )
+
+cp -f "$ORIGINAL_FILE" "$DESTINATION_FILE"
 
 for ((i=0; i<${#variables[@]}; i+=2)); do
     var_name=${variables[$i]}
@@ -19,10 +24,10 @@ for ((i=0; i<${#variables[@]}; i+=2)); do
 
     if [ ! -z "${!var_name}" ]; then
         echo "${config_name} set to: ${!var_name}"
-        if grep -q "$config_name" "$APP_FILE"; then
-            sed -i "/$config_name = /c $config_name = ${!var_name}" "$APP_FILE"
+        if grep -q "$config_name" "$DESTINATION_FILE"; then
+            sed -i "s|^$config_name =.*$|$config_name = ${!var_name}|g" "$DESTINATION_FILE"
         else
-            echo -ne "\n$config_name = ${!var_name}" >> "$APP_FILE"
+            echo -ne "\n$config_name = ${!var_name}" >> "$DESTINATION_FILE"
         fi
     fi
 done
