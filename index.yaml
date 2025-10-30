@@ -1,0 +1,27 @@
+apiVersion: v1
+entries:
+  aska-server:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2025-10-30T19:53:58.223550194Z"
+    description: Deploy an Aska dedicated game server
+    digest: 79e3f46f50a72edd6e268a41c9c9971df7ff1926f107e97331fed39383213824
+    home: https://github.com/nitrikx/aska-server
+    keywords:
+    - helm
+    - aska
+    - video games
+    - survival
+    maintainers:
+    - email: benoit@sauve.re
+      name: Benoît Sauvère
+    name: aska-server
+    sources:
+    - https://github.com/nitrikx/aska-server
+    - https://github.com/luxusburg/aska-server
+    - https://hub.docker.com/r/luxusburg/aska-server
+    type: application
+    urls:
+    - https://github.com/NitriKx/aska-server/releases/download/aska-server-1.0.0/aska-server-1.0.0.tgz
+    version: 1.0.0
+generated: "2025-10-30T19:53:58.223578688Z"
