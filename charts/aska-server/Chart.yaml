@@ -1,11 +1,13 @@
 apiVersion: v2
 name: aska-server
 version: 1.0.0
-appVersion: latest
+appVersion: 0.1.0
 type: application
 description: Deploy an Aska dedicated game server
+home: https://github.com/nitrikx/aska-server
 sources:
-  - https://github.com/NitriKx/skynetk8s.git
+  - https://github.com/nitrikx/aska-server
+  - https://github.com/luxusburg/aska-server
   - https://hub.docker.com/r/luxusburg/aska-server
 keywords:
   - helm
@@ -15,4 +17,3 @@ keywords:
 maintainers:
   - name: Benoît Sauvère
     email: benoit@sauve.re
-

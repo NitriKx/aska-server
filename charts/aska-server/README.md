@@ -18,6 +18,35 @@ This Helm chart deploys an [Aska](https://store.steampowered.com/app/1898300/ASK
 - Helm 3.0+
 - PersistentVolume provisioner support in the underlying infrastructure (if using persistent storage)
 
+### Add Helm Repository
+
+```bash
+helm repo add aska-server https://nitrikx.github.io/aska-server/
+helm repo update
+```
+
+### Install from Repository
+
+```bash
+helm install aska-server aska-server/aska-server \
+  --namespace game-servers \
+  --create-namespace \
+  -f values.yaml
+```
+
+### Install from Source
+
+Clone the repository and install from the local chart:
+
+```bash
+git clone https://github.com/nitrikx/aska-server.git
+cd aska-server
+helm install aska-server ./charts/aska-server \
+  --namespace game-servers \
+  --create-namespace \
+  -f values.yaml
+```
+
 ### Quick Start
 
 1. Enable the server in your values file:
@@ -234,8 +263,17 @@ nc -u <server-ip> 27016
 
 ## Upgrading
 
+### From Repository
+
 ```bash
-helm upgrade aska-server ./charts/aska-server -n game-servers
+helm repo update
+helm upgrade aska-server aska-server/aska-server -n game-servers -f values.yaml
+```
+
+### From Source
+
+```bash
+helm upgrade aska-server ./charts/aska-server -n game-servers -f values.yaml
 ```
 
 ## Uninstalling
@@ -248,4 +286,10 @@ helm uninstall aska-server -n game-servers
 ```bash
 kubectl delete pvc -n game-servers <pvc-name>
 ```
+
+## Development
+
+This chart is maintained at [github.com/nitrikx/aska-server](https://github.com/nitrikx/aska-server).
+
+To contribute or report issues, please visit the repository.
 
