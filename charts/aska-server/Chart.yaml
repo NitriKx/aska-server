@@ -1,0 +1,18 @@
+apiVersion: v2
+name: aska-server
+version: 1.0.0
+appVersion: latest
+type: application
+description: Deploy an Aska dedicated game server
+sources:
+  - https://github.com/NitriKx/skynetk8s.git
+  - https://hub.docker.com/r/luxusburg/aska-server
+keywords:
+  - helm
+  - aska
+  - video games
+  - survival
+maintainers:
+  - name: Benoît Sauvère
+    email: benoit@sauve.re
+

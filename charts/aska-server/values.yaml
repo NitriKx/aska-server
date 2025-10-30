@@ -1,0 +1,304 @@
+# Create the Aska server deployment
+enabled: false
+
+global:
+  commonLabels: {}
+  revisionHistoryLimit: 5
+
+# The optional priority class to be used for the aska-server pods.
+priorityClassName: ""
+
+# Pod Security Context to be set on the aska-server component Pod
+# For more information, see [Configure a Security Context for a Pod or Container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/).
+# +docs:property
+securityContext: {}
+  # linux server images requires to edit some files
+  # runAsNonRoot: false
+  # seccompProfile:
+  #   type: RuntimeDefault
+  # runAsUser: 1000
+  # runAsGroup: 1000
+
+
+# Container Security Context to be set on the aska-server component container
+# For more information, see [Configure a Security Context for a Pod or Container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/).
+# +docs:property
+containerSecurityContext:
+  # We need to disable those to security protection because of how the linuxserver images are built
+  readOnlyRootFilesystem: false
+  # capabilities:
+  #     drop:
+  #      - ALL
+
+podDisruptionBudget:
+  # Enable or disable the PodDisruptionBudget resource.
+  #
+  # This prevents downtime during voluntary disruptions such as during a Node upgrade.
+  # For example, the PodDisruptionBudget will block `kubectl drain`
+  # if it is used on the Node where the only remaining aska-server
+  # Pod is currently running.
+  enabled: false
+
+  # `minAvailable` configures the minimum available pods for disruptions. It can either be set to
+  # an integer (e.g. 1) or a percentage value (e.g. 25%).
+  # Cannot be used if `maxUnavailable` is set.
+  # +docs:property
+  # +docs:type=unknown
+  # minAvailable: 1
+
+  # `maxUnavailable` configures the maximum unavailable pods for disruptions. It can either be set to
+  # an integer (e.g. 1) or a percentage value (e.g. 25%).
+  # Cannot be used if `minAvailable` is set.
+  # +docs:property
+  # +docs:type=unknown
+  # maxUnavailable: 1
+
+# Optional additional annotations to add to the aska-server Deployment.
+# +docs:property
+# deploymentAnnotations: {}
+
+# Optional additional annotations to add to the aska-server Pods.
+# +docs:property
+# podAnnotations: {}
+
+# Optional additional annotations to add to the aska-server Service.
+# +docs:property
+# serviceAnnotations: {}
+
+# Aska Server Configuration
+# Configure your server settings via environment variables
+serverConfig:
+  # Timezone for the server (e.g., Europe/Paris, America/New_York)
+  timezone: "UTC"
+  
+  # Server display name in the session list
+  serverName: "Aska Dedicated Server"
+  
+  # Server password (leave empty for no password)
+  password: ""
+  
+  # The port that clients will connect to for gameplay
+  # Should match the service port configuration
+  serverPort: 27015
+  
+  # The port that will manage server browser related duties and info
+  # Should match the service port configuration
+  serverQueryPort: 27016
+  
+  # Authentication token for authentication without a Steam client
+  # +docs:property
+  # authenticationToken: ""
+  
+  # Region setting - Leave default to ping the best region
+  # Options: see server config file for available regions
+  # +docs:property
+  # region: ""
+  
+  # Keep world alive when no players are connected
+  # If true: world updates even without players
+  # If false: world loads when first player joins, unloads when last player leaves
+  keepWorldAlive: false
+  
+  # Autosave style configuration
+  # Options: "every morning", "disabled", "every 5 minutes", "every 10 minutes", 
+  #          "every 15 minutes", "every 20 minutes"
+  autoSaveStyle: "every morning"
+  
+  # Set to true if the server should only accept manually adapted server_properties.txt file
+  # When true, the above environment variables are ignored in favor of the config file
+  customConfig: false
+  
+  # User and Group ID for the container process
+  # Useful for permission management with persistent volumes
+  puid: 1000
+  pgid: 1000
+
+# Additional environment variables to pass to aska-server container.
+# This is for any custom environment variables not covered by serverConfig above.
+# For example:
+#  extraEnv:
+#  - name: SOME_VAR
+#    value: 'some value'
+extraEnv: []
+
+# Resources to provide to the aska-server pod.
+#
+# For example:
+#  requests:
+#    cpu: 500m
+#    memory: 2Gi
+#  limits:
+#    cpu: 2000m
+#    memory: 4Gi
+#
+# For more information, see [Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
+resources: {}
+
+# The nodeSelector on Pods tells Kubernetes to schedule Pods on the nodes with
+# matching labels.
+# For more information, see [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/).
+#
+# This default ensures that Pods are only scheduled to Linux nodes.
+# It prevents Pods being scheduled to Windows nodes in a mixed OS cluster.
+# +docs:property
+nodeSelector:
+  kubernetes.io/os: linux
+
+# A Kubernetes Affinity, if required. For more information, see [Affinity v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core).
+#
+# For example:
+#   affinity:
+#     nodeAffinity:
+#      requiredDuringSchedulingIgnoredDuringExecution:
+#        nodeSelectorTerms:
+#        - matchExpressions:
+#          - key: foo.bar.com/role
+#            operator: In
+#            values:
+#            - master
+affinity: {}
+
+# A list of Kubernetes Tolerations, if required. For more information, see [Toleration v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#toleration-v1-core).
+#
+# For example:
+#   tolerations:
+#   - key: foo.bar.com/role
+#     operator: Equal
+#     value: master
+#     effect: NoSchedule
+tolerations: []
+
+# A list of Kubernetes TopologySpreadConstraints, if required. For more information, see [Topology spread constraint v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#topologyspreadconstraint-v1-core).
+#
+# For example:
+#   topologySpreadConstraints:
+#   - maxSkew: 2
+#     topologyKey: topology.kubernetes.io/zone
+#     whenUnsatisfiable: ScheduleAnyway
+#     labelSelector:
+#       matchLabels:
+#         app.kubernetes.io/instance: aska-server
+#         app.kubernetes.io/component: controller
+topologySpreadConstraints: []
+
+# Optional additional labels to add to the aska-server Pods.
+podLabels: {}
+
+# Optional additional labels to add to the aska-server Service.
+serviceLabels: {}
+
+image:
+  # The container registry to pull the aska-server image from.
+  # +docs:property
+  # registry: docker.io
+
+  # The container image for the aska-server
+  # +docs:property
+  repository: luxusburg/aska-server
+
+  # Override the image tag to deploy by setting this variable.
+  # If no value is set, the chart's appVersion will be used.
+  # +docs:property
+  # tag: latest
+
+  # Setting a digest will override any tag.
+  # +docs:property
+  # digest: sha256:0e072dddd1f7f8fc8909a2ca6f65e76c5f0d2fcfb8be47935ae3457e8bbceb20
+
+  # Kubernetes imagePullPolicy on Deployment.
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  # Specifies whether a service account should be created.
+  create: true
+
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  # +docs:property
+  # name: ""
+
+  # Optional additional annotations to add to the aska-server's Service Account.
+  # +docs:property
+  # annotations: {}
+
+  # Optional additional labels to add to the aska-server's Service Account.
+  # +docs:property
+  # labels: {}
+
+  # Automount API credentials for a Service Account.
+  automountServiceAccountToken: true
+
+# Service settings
+service:
+  # Service type (ClusterIP, NodePort, LoadBalancer, or ExternalName)
+  type: LoadBalancer
+  # Service ports
+  # Default Aska server ports (configurable based on actual requirements)
+  ports:
+    - name: game-query
+      port: 27016
+      targetPort: 27016
+      protocol: UDP
+    - name: game-port
+      port: 27015
+      targetPort: 27015
+      protocol: UDP
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  # Annotations to add to the service
+  annotations: {}
+
+# Persistence values for the Aska server instance
+# Data is mounted at /home/ubuntu/server_files in the container
+persistence:
+  # Enable or disable persistence
+  enabled: false
+  # Access mode for the persistent volume claim
+  accessMode: ReadWriteOnce
+  # Size of the persistent volume claim
+  size: 20Gi
+  # Storage class for the persistent volume claim
+  storageClass: ""
+  # Name of the existing volume claim for the stateful set, this option can be used to use existing volumes
+  existingVolume: ""
+  ## Persistent Volume selectors
+  ## https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector
+  matchLabels: {}
+  matchExpressions: {}
+
+# if you need any additional volumes, you can define them here
+additionalVolumes: []
+  # - hostPath:
+  #     path: >-
+  #       /dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0
+  #     type: CharDevice
+  #   name: usb
+# if you need any additional volume mounts, you can define them here
+additionalMounts: []
+  # - mountPath: /dev/ttyACM0
+  #   name: usb
+
+# Extra Kubernetes manifests to deploy alongside the chart
+# Useful for creating PersistentVolumes, ConfigMaps, Secrets, etc.
+# For example:
+#  extraManifests:
+#    - apiVersion: v1
+#      kind: PersistentVolume
+#      metadata:
+#        name: aska-server-pv
+#      spec:
+#        capacity:
+#          storage: 20Gi
+#        accessModes:
+#          - ReadWriteOnce
+#        storageClassName: csi-driver-nfs-skynetsrv-fast
+#        csi:
+#          driver: nfs.csi.k8s.io
+#          volumeHandle: aska-server-pv
+#          volumeAttributes:
+#            server: 192.168.20.2
+#            share: /mnt/fast/k8s/game-servers/aska
+extraManifests: []
+
